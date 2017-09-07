@@ -1,0 +1,58 @@
+Notes for setting up Haskell in Emacs.
+http://haskell.github.io/haskell-mode/manual/latest/index.html
+https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md
+https://github.com/jyp/dante
+https://github.com/purcell/emacs.d
+
+* Useful key combos.
+
+** Managing imports
+
+<f8>        - Jump to import list. (in setup)
+M-x haskell-navigate-imports
+
+C-c C-,     - Sort, align imports, while in imports
+M-x haskell-mode-format-imports
+
+---         - Align imports
+M-x haskell-align-imports
+
+** Function movement
+C-M-a       - Move to beginning of current or preceding declaration (beginning-of-defun). 
+
+C-M-e       - Move to end of current or following declaration (end-of-defun). 
+
+C-M-h       - Select whole current or following declaration (mark-defun). 
+
+** Compile
+C-c C-c     - compile
+M-x haskell-process-cabal-build
+
+C-u C-c C-c - Inspect then issue compile command
+
+** Profiling
+C-c C-s    - Toggle scc at point
+M-x haskell-mode-toggle-scc-at-point
+
+** stylish-haskell
+M-x haskell-mode-stylish-buffer
+
+** Haskell Tags
+
+
+* Interactive key combos.
+** Goto error.
+M-n         - is bound to haskell-goto-next-error
+M-p         - is bound to haskell-goto-prev-error
+C-c M-p     - is bound to haskell-goto-first-error
+
+** Goto definition
+M-.         - haskell-mode-goto-loc
+C-c C-t     - haskell-mode-show-type-at
+
+
+* Setup haskell-mode
+
+install: stylish-haskell hasktags
+
+* Setup haskell-interactive-mode
