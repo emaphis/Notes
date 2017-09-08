@@ -1,0 +1,105 @@
+
+
+* Project layout.
+
+lein new app my-stuff
+
+.
+./.gitignore
+./doc
+./doc/intro.md
+./LICENSE
+./project.clj
+./README.md
+./resources
+./src
+./src/my_stuff
+./src/my_stuff/core.clj
+./test
+./test/my_stuff
+./test/my_stuff/core_test.clj
+
+- note on name space 
+Note that we use my-stuff.core instead of just my-stuff since
+ single-segment namespaces are discouraged in Clojure.
+ Also note that namespaces with dashes in the name will have
+ the corresponding file named with underscores instead since
+ the JVM has trouble loading files with dashes in the name.
+
+- Update project.clj
+#+BEGIN_SRC clojure
+:dependencies [[org.clojure/clojure "1.8.0"]
+                 [clj-http "2.0.0"]]
+
+#+END_SRC
+
+user=> (require 'my-stuff.core)
+user=> (require '[clj-http.client :as http])
+user=> (def response (http/get "http://leiningen.org"))
+#'user/response
+user=> (keys response)
+(:status :headers :body :request-time :trace-redirects :orig-content-encoding)
+
+$ lein run
+Hello, World!
+
+Also see here:
+https://8thlight.com/blog/colin-jones/2010/12/05/clojure-libs-and-namespaces-require-use-import-and-ns.html
+
+
+* Testing
+
+** property based
+https://8thlight.com/blog/guest/2015/05/06/reid-draper-guest-blog.html
+https://github.com/clojure/test.check/blob/master/doc/intro.md
+https://github.com/deanwampler/property-based-testing
+
+** Running tests using lein or at repl.
+$ lein test
+lein test my-stuff.core-test 
+
+=> (run-tests)
+=> (run-tests & namespaces)
+
+
+* REPL
+
+** .profile
+
+https://github.com/gfredericks/dotfiles/blob/master/base/.lein/profiles.clj.symlink
+
+** stuff
+https://github.com/gfredericks/repl-utils
+
+** Use:
+
+
+* The language
+
+** Simple
+
+Code that checks to see whether as sting is blank.
+
+#+BEGIN_SRC java
+  public class StringUtils {
+      public static boolean isBlank(String str) {
+          int strLen;
+          if (str == null || (strLen = str.length()) == 0) {
+              return true;
+          }
+          for (int i = 0; i < strLen; i++) {
+              if ((Character.isWhitespace(str.charAt(i)) == false)) {
+                  return false;
+              }
+          } return true;
+      }
+  }
+#+END_SRC
+
+Same code in Clojure
+#+BEGIN_SRC clojure
+  (defn blank? [str]
+    (every? #(Character/isWhitespace %) str))
+#+END_SRC
+Lol!
+

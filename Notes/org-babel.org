@@ -1,0 +1,31 @@
+It seems a good idea to take notes about a programming language in
+ a literate org-babel file so that notes accompany runnable example code.
+
+Tutorials
+Main tutorial - http://orgmode.org/worg/org-contrib/babel/intro.html
+
+
+* Key codes.
+<e <TAB>    - create an example block
+<s <TAB>    - create a code block
+
+C-c '       - edit code in a native buffer.
+C-c '       - exit native buffer and return code to block
+
+
+* Blocks
+
+
+Some Literal examples:
+<s <TAB> - create example block
+#+BEGIN_EXAMPLE
+An example of text
+#+END_EXAMPLE
+
+<s <TAB>  - create code block
+#+BEGIN_SRC  emacs-lisp
+(defun org-xor (a b)
+   "Exclusive or."
+   (if a (not b) b))
+#+END_SRC
+
