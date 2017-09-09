@@ -39,7 +39,6 @@ M-x haskell-mode-stylish-buffer
 
 ** Haskell Tags
 
-
 * Interactive key combos.
 ** Goto error.
 M-n         - is bound to haskell-goto-next-error
@@ -50,9 +49,22 @@ C-c M-p     - is bound to haskell-goto-first-error
 M-.         - haskell-mode-goto-loc
 C-c C-t     - haskell-mode-show-type-at
 
-
 * Setup haskell-mode
 
 install: stylish-haskell hasktags
 
 * Setup haskell-interactive-mode
+* Intero mode
+C-c C-i  - see info of identifier at point
+C-c C-t  - see the type of thing a point
+C-u C-c C-t - insert type signature for the thing at point
+C-c C-l  - load this module in the REPL
+C-c C-c  - evaluate the selected region in the REPL
+C-c C-r  - apply suggestions from GHC
+C-c C-k  - clear the REPL
+C-c C-z  - switch to and from the REPL
+C-c ! l  - see list of errors
+C-c ! n  - next error
+C-c ! p  - previous error
+M-x intero-targets to switch targets
+M-.      - jump to definition

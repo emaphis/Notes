@@ -135,3 +135,28 @@ $ cabal install --only-dependencies
 
 
 ** project conventions
+
+* Set up a new project with Stack
+
+$ stack new helloworld new-template
+
+$ stack setup  -- for a new GHC setup.
+
+$ stack build
+
+-- for now use lts-9.3
+
+-- now run
+:~/helloworld$ stack exec helloworld-exe
+
+-- now test
+
+$ stack test
+
+app/Main.hs
+src/Lib.hs
+test/Spec.hs
+helloworld.cabal
+stack.yaml
+Setup.hs
+
