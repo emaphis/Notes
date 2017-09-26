@@ -67,9 +67,13 @@ lein test my-stuff.core-test
 ** .profile
 
 https://github.com/gfredericks/dotfiles/blob/master/base/.lein/profiles.clj.symlink
+https://github.com/technomancy/slamhound
+https://github.com/jonase/kibit
 
 ** stuff
 https://github.com/gfredericks/repl-utils
+Advanced repl
+https://github.com/Unrepl
 
 ** Use:
 

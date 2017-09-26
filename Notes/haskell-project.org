@@ -160,3 +160,6 @@ helloworld.cabal
 stack.yaml
 Setup.hs
 
+
+-- set a non stack project
+$ stack build --only-dependencies

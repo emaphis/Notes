@@ -1,0 +1,223 @@
+
+* Expressions and variables
+
+** Syntax and semantics
+
+Three questions
+
+1 Syntax is just how you write something
+
+2 Semantics is what that something means
+- Type-checking (before the program runs)
+-- extend the static environment
+-- Produces a type or fails
+-- int bool unit
+
+3 Evaluation (as program runs)
+-- extend the dynamic environment
+-- Produces a value (exception or infinite-loop)
+
+** Values
+- All a values are expressions
+- Not all expressions are values
+- Every value "evaluates to itself" in zero steps
+-- 34, 17, 42 have type intital
+   true, false have type bool
+   () has type unit
+
+** A variable
+1 Syntax:
+- sequence of letters, digits, _, not starting with digit
+2 Type checking:
+- Look up in current static environment
+-- if not there, fail
+3 Evaluation:
+- Look up value in current dynamic environment
+
+** A variable binding
+val x = e;
+
+1 Syntax:
+- Keyword val and punctuation = and ;
+- Variable x
+- Expression e
+-- Many forms of these, most containing subexpressions
+
+2 Type checking:
+
+3 Evaluation
+
+** Addition
+
+1 Syntax
+- e1 + e2 where e1 and e2 are expressions
+
+2 Type-checking
+- If e1 and e2 have a type int
+  then e1 + e2 has type int.
+
+3 Evaluation:
+- If e1 evaluates to v1 and e2 evaluate to v2,
+  then e1 + e2 evaluates to the sum of v1 and v2
+
+** Conditional expression
+1 Syntax
+- if e1 then e2 else e3
+  where if, then, else are key words and  
+  e1 e2 and e3 are subexpressions
+
+2 Type-checking
+  e1 must be of type bool
+  e2 and e3 must be of the same type 't' but can be any type 't'
+  The type of the entire expression is also 't'
+
+3 Evaluation
+  Evaluate e1 to a value v1
+  if v1 is true, evaluate e2 to v2, then the result of the if expression is v2
+  else evaluate e3 to v3, then the result of the expression is v3
+
+** Less-than
+1 Syntax:
+  e1 < e2
+  where '<' is an operator and e1 and e2 are subexpressions
+
+2 Type checking
+  e1 and e2 must be ordered types the result of expression is type bool.
+
+3 Evaluation
+  e1 and e2 are evaluated, if the value of e1 is less than the value
+  of e2 then the value of the expression is true else the value is false
+
+** Shadowing (useful for understanding functions
+
+- Multiple bindings of same variable
+
+-- Multiple variable bindings of the same variable is poor style
+--- confusing
+
+** Function binding
+1 Syntax: fun x0 (x1 : t1, ..., xn : tn) = e
+
+2 Evaluation: A function is a value. (Not evaluated yet)
+  Adds x0 t0 environment so later expressions can call it
+  (Function call semantics will also allow recursion
+
+3 Type checking:
+  Adds binding x0 : (t1 * ... * tn) -> t if
+  Can type-check body e to have type t in the static environment
+   containing
+  - "Enclosing" static environment
+  - x1: t1, ..., xn : tn   (arguments with their types)
+  - x0: (t1 * ... * tn) -> t  for recursion
+
+** Function calls
+1 Syntax e0 (e1, ..., en)
+  - Parentheses optional on functions of only one parameter.
+
+2 Type-checking:
+  if:
+  - e0 has some type (t1 * ... * tn) -> t
+  - e1 has type t1, .. en has type tn
+  then:
+  - e0 (e1,...,en) has type t
+  Example: pow(x,y-1) has type int.
+
+3 Evaluation:
+  a. (under current dynamic environment) evaluate e0 to a 
+     function fun x0 (x1 : t1, ..., xn : tn) = e
+     - since call type-checked, result will be a function
+  b. (under current dynamic environment) evaluate arguments to
+     values v1, ..., vn
+  c. Result is evaluation of e in an environment extended to map
+     x1 to v1, ..., xn to vn
+     - (An environment is actually the environment where the function
+        was defined, and includes x0 for recursion)
+
+
+
+** Tuples
+- Fixed number of pieces that may have different types
+
+*** Pairs (2-tuples)
+**** build
+1 Syntax (e1,e2)
+2 Evaluation
+  Evaluate e1 to v1 and e2 to v2 - result is (v1, v2)
+  - a pair of values is a value
+3 Type-checking
+  If e1 has type ta and e2 has type tb, then the pair expression has
+  type ta * tb  - a new kind of type
+
+**** Access
+1 Syntax  #1 e  and #2 e
+2 Evaluation:
+  Evaluate e to a pair of values and return first or second piece
+  - Example: if e is a variable x, then look up x in environment
+3 Type-checking
+  if e has type ta * tb, then #1 e has type ta and #2 w has type tb
+
+*** Tuples
+1 Syntax:  (e1,e2,...,en)
+2 Types: ta * tb * ... * tn
+3 Access:  #1 e, #2 e, #3 e, ... #n e
+
+
+** Lists
+- Can have any number of elements
+- But all elements must be of the same type
+
+*** build
+- Empty list is a value:  []
+
+- a list of values is a value: elements separated by commas:
+  [v1, v2, ..., vn]
+
+3 Evaluation:
+  If e1 evaluates to v and e2 evaluates to a list [v1,...,vn],
+  then e1::e1 evaluates to [v,...,vn]
+    e1::e2 is pronounced "cons".
+
+*** access
+- null e - evaluates to true if and only if e evaluates to []
+- if e evaluates to [v1,v2,...,vn] the hd e evaluates to v1
+   - raise exception if e evaluates to [].
+- if e evaluates to [v1,v2,...,vn] the tl e evaluates to
+  [v2,...,vn]
+   - raise an exception of e evaluates to []
+   - the result is another list.
+
+*** type-checking
+- int list, bool list, int list list, (int*int) list,
+   (int list * int) list
+- [] is any type of list - 'a list
+- e1:e2 type checks when we have a type t such that el has type t
+   and e2 has a type t list. then the result type is t list
+- null : 'a list -> bool
+- hd   : 'a list -> 'a
+- tl   : 'a list -> 'a list
+
+
+
+** let bindings
+1 Syntax : let b1 b2 ... bn in e end
+
+2 Type-checking
+  - Type-check each bi and e in a static environment that includes
+    the previous bindings.
+    Type of the whole let-expression is the type of e.
+
+3 Evaluation
+  - Evaluate each bi and e in a dynamic environment that includes
+    the previous bindings.
+    Result of the whole let-expression is the result of evaluating e.
+
+** Options
+1 Syntax:  t option is a type for any type t
+
+*** building
+- NONE   - has type 'a optis on (much like [] has type 'a list
+- SOME e - has type t option if e has type t (much like e::[])
+
+*** Accessing
+- isSome - has type 'a option -> bool
+- valOf  - has type 'a option -> 'a  (exception if given NONE)
