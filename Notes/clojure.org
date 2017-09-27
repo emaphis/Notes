@@ -82,7 +82,7 @@ https://github.com/Unrepl
 
 ** Simple
 
-Code that checks to see whether as sting is blank.
+Code that checks to see whether as string is blank.
 
 #+BEGIN_SRC java
   public class StringUtils {
