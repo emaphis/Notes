@@ -1,0 +1,10 @@
+
+* Interesting setups
+
+https://github.com/domtronn/emacs
+icon fonts
+
+
+* Other
+https://github.com/NicolasPetton/zerodark-theme
+https://github.com/NicolasPetton/stream

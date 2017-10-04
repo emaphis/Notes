@@ -133,8 +133,6 @@ val x = e;
      - (An environment is actually the environment where the function
         was defined, and includes x0 for recursion)
 
-
-
 ** Tuples
 - Fixed number of pieces that may have different types
 
@@ -160,7 +158,6 @@ val x = e;
 1 Syntax:  (e1,e2,...,en)
 2 Types: ta * tb * ... * tn
 3 Access:  #1 e, #2 e, #3 e, ... #n e
-
 
 ** Lists
 - Can have any number of elements
@@ -196,8 +193,6 @@ val x = e;
 - hd   : 'a list -> 'a
 - tl   : 'a list -> 'a list
 
-
-
 ** let bindings
 1 Syntax : let b1 b2 ... bn in e end
 
@@ -221,3 +216,229 @@ val x = e;
 *** Accessing
 - isSome - has type 'a option -> bool
 - valOf  - has type 'a option -> 'a  (exception if given NONE)
+** Bigger types
+- Base types: int bool unit char
+- Compound types
+*** Building blocks
+- Each of - A val 't' contains values of each of t1 t2 ... tn
+  tuples, records
+- One of - A val 't' contains values of t1 t2 ... tn
+  options, enums
+- Self reference - A val 't' can refer to other t values
+  lists contains an int 'and' another list 'or' it's empty
+- nested compounds of these 
+** Records
+  - like tuples with named fields
+Records values have fields (any name) holding values
+  {f1 = v1, ..., fn = vn}
+Record types have fields (and name) holding types
+  {f1 : t1, ..., fn : tn}
+Order of fields never matters - alphabetizes
+
+Building records:
+  {f1 = e1, ..., fn = en}
+Accessing pieces:
+  #myfieldname e
+
+(Evaluation rules and type-checking as expected)
+
+** By name vs. by position
+*** Little difference (4,7,9) and {f=4, g=7, h=9}
+-- Tuples are shorter
+-- Records are easier to remember
+-- Matter of taste
+
+*** A common hybrid
+-- Caller uses position
+-- Callie uses variables
+** Truth about tuples
+- just syntax sugar for records
+- (e1, ..., en) is the same as {1=e1, ..., n=en}
+- t1 * ... * tn is the same as {1:t1, ..., n:tn}
+- records with field names 1,2,...,n
+** Datatype bindings
+#+BEGIN_SRC sml
+  datatype mytype = TwoInts of int * int
+         | Str of string
+         | Pizza
+#+END_SRC
+
+datatype t = C1 of t1 | C2 of t2 | ... | Cn of tn
+
+*** Syntax
+- Adds a new type 't' to the environment
+- Add constructors to the environment of type ti -> t
+  - A constructor is (among other things), a function that makes
+    values of the new type
+
+- Omit "of t" for constructors that are just tags, with no underlying data
+  Such as Ci is a value of type 't'
+
+- Use case expressions to see:
+-- What variant (tag) it has
+-- Extract the underlying data once you know the tag.
+
+*** Evaluation
+- Can use case expressions anywhere an expression can go.
+-- Does not need to be whole function body, but often is
+
+- Evaluate e to a value call it v
+
+- if pi is the first pattern to match v, the result is evaluation of ei
+  in environment "extended by the match"
+
+- Pattern Ci (x1, ..., xn) matches value Ci(v1,...,vn) and extends
+  the environment with x1 to v1 ... xn to vn
+  - for "no data" constructors, pattern Ci matches value Ci
+
+** Case Expressions
+*** Example:
+#+BEGIN_SRC sml
+    fun f x =  (* f has type mytype -> int *)
+      case x of
+          Pizza => 3
+        | TwoInts(i1,i2) => i1+i2
+        | Str s => String.size s
+#+END_SRC
+
+** Patterns
+- Syntax
+#+BEGIN_SRC sml
+  case e0 of
+       p1 => e2
+     | p2 => e2 
+     | ...
+     | pn => pn
+#+END_SRC
+-- Each pattern is a constructor name followed by the right
+   number of variables
+--- Syntactically most patterns look like expressions
+--- But patterns are not expressions
+    We don't evaluate them.
+    We match them to e0.
+
+** Type synonyms
+- A datatype binding introduces a new type name
+  - Distinct from existing types
+  - Only way to create values is with constructors
+
+- A type synonym is a new kind of binding
+#+BEGIN_SRC smlg
+type aname = t
+#+END_SRC
+
+ - Just creates another name for a type
+ - Type and name are interchangeable in every way
+ - REPL picks what it wants for naming.
+
+** Options are data types
+- NONE and SOME are constructors, not just functions
+- So use pattern-matching not isSome and valOf
+#+BEGIN_SRC sml
+  fun inc_or_zero intoption =
+    case intoption of
+        NONE => 0
+      | SOME i => i+1
+#+END_SRC
+
+** Lists are datatypes
+- Do not use hd, tl, or null either
+-- [] and :: are constructors too.
+-- (strange syntax, particularly infix)
+
+#+BEGIN_SRC sml
+    fun sum_list xs =
+      case xs of
+          [] => 0
+        | x::xs' => x + sum_list xs'
+
+  fun append (xs,ys) =
+    case xs of
+        [] => ys
+      | x::xs' => x :: append(xs', ys)
+#+END_SRC
+** Polymorphic datatypes
+- int list, string list, int list list are types, not lists
+- polymorphic functions
+#+BEGIN_SRC sml
+val sum_list : int list -> int
+val append : 'a list * 'a list -> 'a list
+#+END_SRC
+
+*** Defining polymorphic datatypes
+#+BEGIN_SRC sml
+
+datatype 'a option = NONE | SOME of 'a
+
+datatype 'a mylist = Empty | Cons of 'a * 'a mylist
+
+datatype ('a,'b) tree =
+         Node of 'a * ('a,'b) tree * ('a,'b) tree
+      | Leaf of 'b
+
+#+END_SRC
+
+- Can use these type variables in constructor definitions
+
+- Binding them introduces a type constructor, not a type
+  - Must say int mylist of string or string mylist or 'a mylist not
+    "plain" mylist
+** Each of pattern matching
+*** Pattern matching works of records and tuples
+- The pattern (x1,..,xn) matches tuple value (v1,..,vn)
+- The pattern {f1=x1, ..., fn=xn} matches
+  the record value {f1=v1, ..., fn=vn} (fields can ve freordered)
+*** Example
+- poor style but works
+#+BEGIN_SRC sml
+  fun sum_triple triple =
+    case triple of
+        (x,y,z) => x + y + z
+
+  fun full_name r =
+    case r of
+        {first=x, middle=y, last=z} =>
+           x ^ " " ^ y ^ " " ^ z
+#+END_SRC
+
+*** Val-binding patterns
+- val-bindings can use a pattern, not just a variable
+   val p = e
+
+- Great for getting (all) pieces out of an each-of type
+  also can get only parts out
+
+- Usually poor style to put a constructor pattern in a val-binding
+  - Tests for the one variant and raises an exception if a different
+    one is there (like hd, tl, and valof).
+
+**** Better example
+- This ok style
+  - Though we will improve it again next
+  - Semantically identical to one-branch case expressions
+#+BEGIN_SRC sml
+  fun sum_triple triple =
+    let val (x, y, z) = triple
+    in
+        x + y + z
+    end
+
+   fun full_name r =
+     let val {first=x, middle=y, last=z} = r
+     in
+         x ^ " " ^ y ^ " " ^ z
+     end         
+#+END_SRC
+
+*** Best example
+- A function argument can also be a pattern
+  - Match against the argument in a function call
+    fun f p = e
+- Examples (great stype!):
+#+BEGIN_SRC sml
+  fun sum_triple (x, y, z) =
+    x + y + z
+
+  fun full_name {first=x, middle=y, last=z} =
+    x ^ " " ^ y ^ " " ^ z
+#+END_SRC

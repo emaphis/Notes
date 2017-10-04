@@ -3,6 +3,7 @@ http://haskell.github.io/haskell-mode/manual/latest/index.html
 https://github.com/serras/emacs-haskell-tutorial/blob/master/tutorial.md
 https://github.com/jyp/dante
 https://github.com/purcell/emacs.d
+https://github.com/christianromney/dotfiles/tree/master/emacs
 
 * Useful key combos.
 
