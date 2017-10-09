@@ -442,3 +442,112 @@ datatype ('a,'b) tree =
   fun full_name {first=x, middle=y, last=z} =
     x ^ " " ^ y ^ " " ^ z
 #+END_SRC
+** A little type inference
+- unexpected polymorphism
+#+BEGIN_SRC sml
+fun partial_sum (x, y, z) =
+  x + y;
+
+fun partial_name {first=x, middle=y, last=z} =
+  x ^ " " ^ z;
+#+END_SRC
+
+For # deconstruction type declarations must be made
+#+BEGIN_SRC sml
+fun sum_triple2 (triple : int*int*int) = (* how many positions??? *)
+  #1 triple + #2 triple + #3 triple;
+
+fun full_name2 (r : {first:string, middle:string, last:string}) =
+  #first r ^ " " ^ #middle r ^ " " ^ #last r;
+#+END_SRC
+
+Polymorphic funtions
+BEGIN_SRC sml
+(* partial_sum : int * 'a * int -> int *)
+fun partial_sum (x, y, z) =
+  x + z
+
+(* partial_name : {first:string, last:string, middle:'a} -> string  *)
+fun partial_anem {first=x, middle=y, last=z} =
+  x ^ " " ^ z
+#+END_SRC
+
+** Equality types
+
+#+BEGIN_SRC sml
+(* ''a * ''b -> string  *)
+fun same_thing (x, y) =
+  if x=y then  "yes" else "no";
+
+(* int -> string  *)
+fun is_three x =
+  if x=3 then "yes" else "no";
+#+END_SRC
+
+** Nested patterns
+- patterns are recursive
+#+BEGIN_SRC sml
+(* do this - recursive patterns  *)
+fun zip3 list_triple =
+  case list_triple of
+      ([],[],[]) => []
+   | (hd1::tl1, hd2::tl2, hd3::tl3) => (hd1, hd2, hd3) :: zip3 (tl1, tl2, tl3)
+   | _ => raise ListLengthMismatch;
+
+(* the inverse  *)
+fun unzip3 lst =
+  case lst of
+      [] => ([],[],[])
+    | (a,b,c)::tl1 => let val (l1,l2,l3) = unzip3 tl1
+                      in
+                          (a::l1, b::l2, c::l3)
+                      end;
+
+(* more examples  *)
+
+(* int list -> bool  *)
+fun nondecreasing xs =
+  case xs of
+      []    => true
+    | _::[] => true
+    | head::(neck::rest) => head <= neck
+                            andalso nondecreasing (neck::rest);
+
+datatype sgn = P | N | Z
+
+(* int * int -> sgn   *)
+fun mulsign (x1,x2) =
+  let
+      fun sign x = if x=0 then Z else if x>0 then P else N
+  in
+      case (sign x1, sign x2) of
+          (Z,_) => Z 
+        | (_,Z) => Z
+        | (P,P) => P
+        | (N,N) => P
+        | (N,P) => N
+        | (P,N) => N
+  end;
+#+END_SRC
+
+*** Nested patterns can lead to very elegant, concise code
+- Avoid nested case expressions if nested patterns are simpler and
+  avoid unnecessary branches of let-expressions
+   example: unzip3 and nondecreasing
+- A common idiom is matching against a tuple of datatypes to
+  compare them
+   example: zip3 and multsign
+
+*** Wildcards are good style
+- Use them instead of variables when you do not need the data
+   example: len and multsign
+
+*** Semantics
+- if p is a variable x, the match succeeds and x is bound to v
+- if p is _, the match succeeds and no bindings are introduced
+- if p is (p1,...,pn) and v is (v1,...,vn) the match succeeds if and onlu if
+  p1 matches v1,...,pn mathces vn. The bindings are the union of all bindings from
+  the submatches.
+- if p is C p1, the match succeeds if v is C v1 (ie, the same constructor) and p1
+  matches v1. The bindings are the bindings from the submatches
+- ...(there are several other similar forms of patterns)
