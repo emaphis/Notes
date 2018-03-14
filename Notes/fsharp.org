@@ -26,3 +26,6 @@
 - dotnet sln add src/App/App.fsproj
 - // Add a reference to the App
 - dotnet add src\App\App.fsproj reference src\Library\Library.fsproj
+- Running the App
+- cd src\App
+- dotnet run Hello World
