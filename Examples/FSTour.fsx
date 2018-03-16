@@ -1,4 +1,4 @@
-
+///
 /// This article will act as a tour through some of the key features of the F# language and give
 /// you some code snippets that you can execute on your machine.
 ///
@@ -43,9 +43,9 @@ module BaiscFuntions =
             2.0*x*x - x/5.0 + 3.0
         else
             2.0*x*x + x/5.0 - 37.0
-    
+
     let result3 = sampleFunction3 (6.5 + 4.5)
-    
+
     /// This line uses '%f' to print the result as a float. As with the '%d' above, this is type-safe.
     printfn "The result of applying the 3rd sample function to (6.5 + 4.5) is %f" result3
 
@@ -143,7 +143,7 @@ module StringManipulation =
 
     /// Substrings use the indexer notatioin.  This line extacts the first 7 characters as a substring
     /// Note that like many languages, Strings are zero-indexed in F#
-    let substring = helloWorld.[0..6] 
+    let substring = helloWorld.[0..6]
     printfn "%s" substring
 
 
@@ -318,10 +318,10 @@ module Lists =
         [ for month in 1 .. 12 do
             for day in 1 .. System.DateTime.DaysInMonth(2017, month) do
                 yield System.DateTime(2017, month, day) ]
-    
+
     /// Print the first five elements of 'daysList' using 'List.take'.
     printfn "The first 5 days of 2017 are: %A" (daysList |> List.take 5)
-    
+
     /// Computations can include conditionals.  This is a list containing the tuples
     /// which are the coordinates of the black square on a chess board.
     let blackSquares =
@@ -329,7 +329,7 @@ module Lists =
             for j in 0 .. 7 do
                 if (i+j) % 2 = 1 then
                  yield (i,j) ]
-    
+
 
     /// Lists can be transformed using 'List.map' and other functional programming combinators.
     /// This definition produces an new list by squaring the numbers in numberList, using pipeline
@@ -368,7 +368,7 @@ module Arrays =
         [| for word in array2 do
                 if word.Contains("l") then
                     yield word |]
-    
+
     /// This is an array initialized by index and containing the even numbers from 0 to 2000
     let evenNumbers = Array.init 1001 (fun n -> n * 2)
 
@@ -378,12 +378,12 @@ module Arrays =
     /// You can loop over arrays and lists using 'for' loops.
     for word in array4 do
         printf "word: %s" word
-    
+
     /// You can modify the contents of an array element by using the left arrow assignment operator.
     array2.[1] <- "WORLD!"
-    
+
     /// You can transform arrays using 'Array.map' and other functional programming operations.
-    /// The following calculates the sum of the lengths of the words that star with 'h'
+    /// The efollowing calculates the sum of the lengths of the words that star with 'h'
     let sumOfLengthsOfWords =
         array2
         |> Array.filter (fun x -> x.StartsWith "h")
@@ -413,7 +413,7 @@ module Sequences =
         seq { for word in seq2 do
                 if word.Contains("l") then
                     yield word }
-    
+
     /// This sequence producing the even numbers up to 2000.
     let evenNumbers = Seq.init 1001 (fun n -> n * 2)
 
@@ -424,7 +424,7 @@ module Sequences =
     let rec randomWalk x =
         seq { yield x
               yield! randomWalk (x + rnd.NextDouble() - 0.5) }
-    
+
     /// This example shows the first 100 elements of random walk
     let first100ValuesOfRandomWalk =
         randomWalk 5.0
@@ -446,7 +446,7 @@ module Sequences =
     /// integer.  It uses 'let rec' to define a recursive function.
     let rec factorial n =
         if n = 0 then 1 else n * factorial (n-1)
-    
+
     printfn "Factorial of 6 is: %d" (factorial 6)
 
     /// Computes the greatest common factor of two integers.
@@ -458,7 +458,7 @@ module Sequences =
         if a = b then b
         elif a < b then greatesCommonFactor a (b - a)
         else greatesCommonFactor (a - b) b
-    
+
     printfn "The Greatest Common Factor of 300 and 620 is %d" (greatesCommonFactor 300 630)
 
     /// This example computes the sum of a list of integers using recursion
@@ -466,7 +466,7 @@ module Sequences =
         match xs with
         | []    -> 0
         | y::ys -> y + sumList ys
-    
+
     let oneThroughTen = [ 1; 2; 3; 4; 5; 6; 7; 8; 9; 10 ]
 
     printfn "The sum 1-10 is %d" (sumList oneThroughTen)
@@ -476,7 +476,7 @@ module Sequences =
         match xs with
         | []    -> accumulator
         | y::ys -> sumListTailRecHelper (accumulator+y) ys
-    
+
     /// This invokes the tail recursive helper function, providing '0' as a seed accumulator.
     /// An approach like this is common in F#.
     let sumListTailRecursive xs = sumListTailRecHelper 0 xs
@@ -488,3 +488,460 @@ module Sequences =
 
 
 /// Record and Discrimated Union Types
+
+/// Record and Union types are two fundamental data types used in F# code, and are generally the
+/// best way to represent data in an F# program. Although this makes them similar to classes in
+/// other languages, one of their primary differences is that they have structural equality semantics.
+/// This means that they are "natively" comparable and equality is straightforward - just check if
+/// one is equal to the other.
+
+/// Records are an aggregate of named values, with optional members (such as methods). If you're
+/// familiar with C# or Java, then these should feel similar to POCOs or POJOs - just with structural
+/// equality and less ceremony.
+
+module RecordTypes =
+
+    /// This example shows how to define a new record type.
+    type ContactCard =
+        { Name      : string
+
+    /// This example shows how to instantiate a record type
+          Phone     : string
+          Verified  : bool }
+    let contact1 =
+        { Name = "Alf"
+          Phone = "(216) 555-0157"
+          Verified = false }
+
+    /// You can also do this on the same line with ';' separators.
+    let contactOnSameLine = { Name = "Alf"; Phone = "(216) 555-0157"; Verified = false }
+
+    /// This example shows how to use "copy-and-update" on record values. It creates
+    /// a new record value that is a copy of contact1, by has different values for
+    /// the 'Phone' and 'Verified' fields.
+    let contact2 =
+        { contact1 with
+            Phone = "(216) 555-0112"
+            Verified = true }
+
+    /// This example show how to write a function that processes a record value.
+    /// It converts a 'ContactCard' object to a string
+    let showContactCard (c: ContactCard) =
+        c.Name + " Phone: " + c.Phone + (if not c.Verified then " (unverified)" else "")
+
+    printfn "Alf's Contact Card: %s" (showContactCard contact1)
+
+    /// This is an example of a Record with a memeber.
+    type ContactCardAlternate =
+        { Name      : string
+          Phone     : string
+          Address   : string
+          Verified  : bool }
+
+        /// Members can implement object-oriented members.
+        member this.PrintedContactCard =
+            this.Name + " Phone: " + this.Phone + (if not this.Verified then " (unverified)" else "") + this.Address
+
+    /// Records can also be represented as structs via the 'Struct' attribute.
+    /// This is helpful in situations where the performance of structs outweiighs
+    /// the flexiblity of reference types.
+    [<Struct>]
+    type ContactStruct =
+        { Name     : string
+          Phone    : string
+          Verified : bool }
+
+
+/// Discriminated Unions (DUs) are values which could be a number of named forms or cases.
+/// Data stored in the type can be one of several distinct values.
+
+module DiscrimatedUnions =
+
+    /// The following represents the suit of a playing card.
+    type Suit =
+        | Hearts
+        | Clubs
+        | Diamonds
+        | Spades
+
+    /// A Discrinated Union can also be use to represent the fank of a playing card.
+    type Rank =
+        /// Represents the ran of cards 2 .. 10
+        | Value of int
+        | Ace
+        | King
+        | Queen
+        | Jack
+
+        /// Discriminated Unions can also implement object-oriented members.
+        static member GetAllRanks() =
+            [ yield Ace
+              for i in 2 .. 10 do yield Value i
+              yield Jack
+              yield Queen
+              yield King ]
+
+    /// This is a record type that combines a Suit and a Rank.
+    /// It's common to use both Records and Discriminate Unions when representing data.
+    type Card = { Suit: Suit; Rank: Rank }
+
+    /// This computes a list representing all the cards in the deck.
+    let fullDeck =
+        [ for suit in [ Hearts; Diamonds; Clubs; Spades ] do
+              for rank in Rank.GetAllRanks() do
+                  yield { Suit=suit; Rank=rank } ]
+
+    /// This example converts a 'Card' object to a string
+    let showPlayingCard (c: Card) =
+        let rankString =
+            match c.Rank with
+            | Ace -> "Ace"
+            | King -> "King"
+            | Queen -> "Queen"
+            | Jack -> "Jack"
+            | Value n -> string n
+        let suitString =
+            match c.Suit with
+            | Clubs -> "clubs"
+            | Diamonds -> "diamonds"
+            | Spades -> "spades"
+            | Hearts -> "hears"
+        rankString + " of " + suitString
+
+    /// This example prints all the cards in a playing deck.
+    let printAllCards() =
+        for card in fullDeck do
+            printfn "%s" (showPlayingCard card)
+
+    /// Single-case DUs are often used for demain modeling.  This can buy extra type safety
+    /// over primitive types such as strings and int.
+    ///
+    /// Single-case DUs cannot be implicitly converted to or from the type they wrap.
+    /// For example, a function which takes in an Address connot accept a string as that input
+    /// or vice versa.
+    type Address = Address of string
+    type Name = Name of string
+    type SSN = SSN of int
+
+    /// You can easily instantiate a single-case DU as follows.
+    let address = Address "111 Alf Way"
+    let name = Name "Alf"
+    let ssn = SSN 1234567890
+
+    /// When you need the value, you can unwrap the underlying value with a simple function.
+    let unwrapAddress (Address a) = a
+    let unwrapName (Name n) = n
+    let unwrapSSN (SSN s) = s
+
+    /// Printing single-case DUs is simple with unwrapping functions.
+    printfn "Address: %s, Name: %s, and SSN: %d" (address |> unwrapAddress) (name |> unwrapName) (ssn |> unwrapSSN)
+
+/// As the above sample demonstrates, to get the underlying value in a single-case Discriminated
+/// Union, you must explicitly unwrap it.
+
+/// Additionally, DUs also support recursive definitions, allowing you to easily represent trees and
+/// inherently recursive data. For example, here's how you can represent a Binary Search Tree with
+/// 'exists' and 'insert' functions.
+
+
+    /// Discriminated Unions also support recursive definitions
+    ///
+    /// This represents a Binary Search Tree, with one case being the Empty Tree,
+    /// and the other being a Node wiht a value and two subrees.
+    type BST<'T> =
+        | Empty
+        | Node of vale:'T * left:BST<'T> * right: BST<'T>
+
+    /// Check if an item exists in the binary search tree.
+    /// Searches recursively using Pattern Matching.  Returns true if it exists; otherwise false.
+    let rec exists item bst =
+        match bst with
+        | Empty -> false
+        | Node (x, left, right) ->
+            if item = x then true
+            elif item < x then (exists item left)  // Check the left subtree.
+            else (exists item right)  // Check ther right subtree
+
+    /// Insem is already present, it does not insert anything. (set)
+    let rec insert item bst =
+        match bst with
+        | Empty -> Node(item, Empty, Empty)
+        | Node(x, left, right) as node ->
+            if item = x then node   // No need to insert, it already exists; return node.
+            elif item < x then Node(x, insert item left, right)  // Call into left subtree.
+            else Node(x, left, insert item right)  // Call into right subtree
+
+/// Because DUs allow you to represent the recursive structure of the tree in the data type,
+/// operating on this recursive structure is straightforward and guarantees correctness. It is also
+/// supported in pattern matching, as shown below.
+
+
+    /// Discriminated Unions can also be represented as structs via the 'struct' attribute.
+    /// This is helpful in situations where the performance of structs outweighs
+    /// the flexibility of reference types.
+    ///
+    /// However, there are two imprortant things to know when doing this:
+    ///     1. A struct DU cannot be recursively-defined
+    ///     2. A struct DU must have unique names for each of it's cases.
+    [<Struct>]
+    type Shape =
+        | Circle of radius: float
+        | Square of side: float
+        | Triangle of height: float * width: float
+
+
+/// Pattern Matching
+
+/// Pattern Matching is the F# language feature which enables correctness for operating on F# types.
+/// In the above samples, you probably noticed quite a bit of 'match x with ...' syntax. This
+/// construct allows the compiler, which can understand the "shape" of data types, to force you to
+/// account for all possible cases when using a data type through what is known as Exhaustive Pattern
+///  Matching. This is incredibly powerful for correctness, and can be cleverly used to "lift" what
+/// would normally be a runtime concern into compile-time.
+
+module PatternMatching =
+
+    /// A record for a person's first and last name
+    type Person = {
+        First : string
+        Last  : string
+    }
+
+    /// A Discriminated Union of 3 different kins of employees.
+    type Employee =
+        | Engineer of engineer: Person
+        | Manager of manager: Person * reports: List<Employee>
+        | Executive of executive: Person * reports: List<Employee> * assistant: Employee
+
+    /// Count everyone underneath the employee in the management hierarchy,
+    /// including the employee.
+    let rec countReports(emp: Employee) =
+        1 + match emp with
+            | Engineer(_id) ->
+                0
+            | Manager(_id, reports) ->
+                reports |> List.sumBy countReports
+            | Executive(_id, reports, assistant) ->
+                (reports |> List.sumBy countReports) + countReports assistant
+
+    /// Find all managers/executives name "Dave" who do not have any reports.
+    /// This uses the 'function' shorthand as a lambda expression
+    let rec findDaveWithOpenPosition(emps: List<Employee>) =
+        emps
+        |> List.filter (function
+                        | Manager({First = "Dave"}, []) -> true  // [] matches an empty list.
+                        | Executive({First = "Dave"}, [], _) -> true
+                        | _ -> false) // '_' is a wildcard pattern that matches anything
+                                      // This handles the "or else" case/
+
+    open System
+
+    /// You can alos use the shorthand function construct for pattern matching,
+    /// which is useful when you're writing functions which make use of Partial Application.
+    let private parseHelper f = f >> function
+        | (true, item) -> Some item
+        | (false, _) -> None
+
+    let parseDateTimeOffset = parseHelper DateTimeOffset.TryParse
+
+    let result = parseDateTimeOffset "1970-01-01"
+    match result with
+        | Some dto -> printfn "It parsed!"
+        | None -> printfn "It didn't parse!"
+
+    /// Define some more functions which parse with the helper function.
+    let parseInt = parseHelper Int32.TryParse
+    let parseDouble = parseHelper Double.TryParse
+    let parseTimeSpan = parseHelper TimeSpan.TryParse
+
+/// Something you may have noticed is the use of the '_' pattern. This is known as the Wildcard
+/// Pattern, which is a way of saying "I don't care what something is". Although convenient, you
+/// can accidentally bypass Exhaustive Pattern Matching and no longer benefit from compile-time
+/// enforcements if you aren't careful in using '_'. It is best used when you don't care about
+/// certain pieces of a decomposed type when pattern matching, or the final clause when you have
+/// enumerated all meaningful cases in a pattern matching expression.
+
+
+    /// Active Patterns are another powerful construct to use with pattern matching.
+    /// They allow you to partition input data into custom forms, decomposing them at
+    /// the pattern match call site.
+
+    let (|Int|_|) = parseInt
+    let (|Double|_|) = parseDouble
+    let (|Date|_|) = parseDateTimeOffset
+    let (|TimeSpan|_|) = parseTimeSpan
+
+    /// Pattern Matching via 'function' keyword and Active Patterns often look like this.
+    let printParseResult = function
+        | Int x -> printfn "%d" x
+        | Double x -> printfn "%f" x
+        | Date d -> printfn "%s" (d.ToString())
+        | TimeSpan t -> printfn "%s" (t.ToString())
+        | _ -> printfn "Nothing was parse-able!"
+
+    /// Call the printer with some different values to parse.
+    printParseResult "12"
+    printParseResult "12.045"
+    printParseResult "12/28/2016"
+    printParseResult "9:01PM"
+    printParseResult "banana!"
+
+
+/// Optional Types
+
+/// One special case of Discriminated Union types is the Option Type, which is so useful that it's
+/// a part of the F# core library.
+
+/// The Option Type is a type which represents one of two cases: a value, or nothing at all. It is
+/// used in any scenario where a value may or may not result from a particular operation. This then
+/// forces you to account for both cases, making it a compile-time concern rather than a runtime
+/// concern. These are often used in APIs where 'null' is used to represent "nothing" instead, thus
+/// eliminating the need to worry about 'NullReferenceException' in many circumstances.
+
+module OptionValues =
+
+    /// First, define a zip code defined via Single-case Discriminated Union.
+    type ZipCode = ZipCode of string
+
+    /// Next, define a type where the ZipCode is optional.
+    type Customer = { ZipCode: ZipCode option }
+
+    /// Next, define an interface type that represents an object to compute the shipping zone for
+    /// the customer's given implementations for the 'getState' and 'getShippingZone' abstract methods.
+    type IShippingCalculator =
+        abstract GetState : ZipCode -> string option
+        abstract GetShippingZone : string -> int
+
+    /// Next, calculate a shipping zone for a customer using a calculator instance.
+    /// This uses combinators in the Option module to allow a functional pipeline for
+    /// transforming data with Optionals.
+    let CustomerShippingZone (calculator: IShippingCalculator, customer: Customer) =
+        customer.ZipCode
+        |> Option.bind calculator.GetState
+        |> Option.map calculator.GetShippingZone
+
+
+/// Units of Measure
+
+/// One unique feature of F#'s type system is the ability to provide context for numeric literals
+/// through Units of Measure.
+
+/// Units of Measure allow you to associate a numeric type to a unit, such as Meters, and have
+/// functions perform work on units rather than numeric literals. This enables the compiler to
+/// verify that the types of numeric literals passed in make sense under a certain context, thus
+/// eliminating runtime errors associated with that kind of work.
+
+module UnitsOfMeasure =
+
+    /// First, open a collection of common unit names.
+    open Microsoft.FSharp.Data.UnitSystems.SI.UnitNames
+
+    /// Define a unitized constant
+    let sampleValue1 = 1600.0<meter>
+
+    /// Next, define a new unit type.
+    [<Measure>]
+    type mile =
+        /// Conversionfactor mile to meter.
+        static member asMeter = 1609.34<meter/mile>
+
+    /// Define a unitized constant
+    let sampleValue2 = 500.0<mile>
+
+    /// Compute metric-system constant
+    let sampleValue3 = sampleValue2 * mile.asMeter
+
+    /// Values using Units of Measure can be used just like the primative numberic type for things
+    /// like printing
+    printfn "After a %f meter race I would walk %f miles which would be %f meters" sampleValue1 sampleValue2 sampleValue3
+
+/// The F# Core library defines many SI unit types and unit conversions.
+
+
+/// Classes and Interfaces
+
+/// F# also has full support for .NET classes, Interfaces, Abstract Classes, Inheritance, and so on.
+
+/// Classes are types that represent .NET objects, which can have properties, methods, and events
+/// as its Members.
+
+module DefiningClasses =
+
+    /// A simple two-dimensional Vector class.
+    ///
+    /// The class's constructor is on the fist line,
+    /// and takes tow argumens: dx and dy, both of type 'double'.
+    type Vector2D(dx : double, dy : double) =
+
+        /// This internal field atores the length of the vector, computed when the
+        /// object is constructed
+        let length = sqrt (dx*dx + dy*dy)
+
+        /// 'this' specifies a name for the objext's self-identifier.
+        /// In stance methods, it must appear before the member name.
+        member this.DX = dx
+
+        member this.DY = dy
+
+        member this.Length = length
+
+        /// This member is a method.  The previous members were properties.
+        member this.Scale(k) = Vector2D(k * this.DX, k * this.DY)
+
+    /// This is how you instantiate the Vector2D class.
+    let vector1 = Vector2D(3.0, 4.0)
+
+    /// Get a new scaled vector object, without modifying the original object.
+    let vector2 = vector1.Scale(10.0)
+
+    printfn "Length of vector1: %f\nLength of vector2: %f" vector1.Length vector2.Length
+
+
+/// Defining generic classes is also very straightforward.
+
+module DefiningGenericClasses =
+
+    type StateTracker<'T>(initialElement: 'T) =
+
+        /// This internal field stores the states in a list.
+        let mutable states = [ initialElement ]
+
+        /// Add a new element to the list of states.
+        member this.UpdateState newState =
+            states <- newState :: states   // use the '<-' operator to mutate the value.
+
+        /// Get the entire list of historical states.
+        member this.History = states
+
+        /// Get the latest state.
+        member this.Current = states.Head
+
+    /// An 'int' instance of the state tracker class. Note that the type parameter is inferred.
+    let tracker = StateTracker 10
+
+    /// Add a state
+    tracker.UpdateState 17
+
+
+/// To implement an interface, you can use either 'interface ... with' syntac or an Object Expression
+
+module ImplementingInterfaces =
+
+    /// This is a type that implements IDisposable.
+    type ReadFile() =
+
+        let file = new System.IO.StreamReader("readme.txt")
+
+        member this.ReadLine() = file.ReadLine()
+
+        /// This is the implementation of IDisposable members.
+        interface System.IDisposable with
+            member this.Dispose() = file.Close()
+
+
+    /// This is an object that implements IDisposable via an Object Expression
+    /// Unlike other languages such as C# or Java, a new type definition is not needed
+    /// to implement an interface
+    let interfaceImplementation =
+        { new System.IDisposable with
+            member this.Dispose() = printfn "disposed" }
