@@ -1,19 +1,23 @@
 
-/// This article will act as a tour through some of the key features of the F# language and give you some code snippets that you can
-/// execute on your machine.
+/// This article will act as a tour through some of the key features of the F# language and give
+/// you some code snippets that you can execute on your machine.
 ///
-/// There are two primary concepts in F#: functions and types. This tour will emphasize features of the language which fall
-/// into these two concepts.
+/// There are two primary concepts in F#: functions and types. This tour will emphasize features
+/// of the language which fall into these two concepts.
+
 
 /// Functions and Modules
-/// The most fundamental pieces of any F# program are 'functions' organized into 'modules'. 'Functions' perform work on inputs to 
-/// produce outputs, and they are organized under 'Modules', which are the primary way you group things in F#. They are defined using 
-/// the 'let' binding, which give the function a name and define its arguments.
+
+/// The most fundamental pieces of any F# program are 'functions' organized into 'modules'.
+/// 'Functions' perform work on inputs to produce outputs, and they are organized under 'Modules',
+/// which are the primary way you group things in F#. They are defined using the 'let' binding,
+/// which give the function a name and define its arguments.
 
 module BaiscFuntions =
 
     /// You can use 'let' to define a function. This one accepts an integer.
-    /// Parentheses are optional for function arguments, except for when you use and explicit type annotation.
+    /// Parentheses are optional for function arguments, except for when you use and explicit type
+    /// annotation.
     let sampleFunction1 x = x*x + 3
 
     /// Apply the function, naming the function return result using 'let'.
@@ -24,7 +28,8 @@ module BaiscFuntions =
     /// If 'result' were not of type 'int', then the line would fail to compile.
     printfn "The result of squaring the integer 4573 and adding 3 is %d" result1
 
-    /// When needed, annotate the type of a parameter name using '(argument:type)'. Parentheses are required.
+    /// When needed, annotate the type of a parameter name using '(argument:type)'. Parentheses are
+    /// required.
     let sampleFunction2 (x:int) = 2*x*x - x/5 + 3
 
     let result2 = sampleFunction2 (7 + 4)
@@ -45,10 +50,11 @@ module BaiscFuntions =
     printfn "The result of applying the 3rd sample function to (6.5 + 4.5) is %f" result3
 
 
-/// 'let' bindings are also how you bind a value to a name, similar to a variable in other languages. 'let' bindings are 'immutable' by 
-/// default, which means that once a value or function is bound to a name, it cannot be changed in-place. This is in contrast to variables
-/// in other languages, which are 'mutable', meaning their values can be changed at any point in time. If you require a mutable binding,
-//  you can use 'let mutable ...' syntax.
+/// 'let' bindings are also how you bind a value to a name, similar to a variable in other languages.
+/// 'let' bindings are 'immutable' by default, which means that once a value or function is bound to
+/// a name, it cannot be changed in-place. This is in contrast to variables in other languages, which
+/// are 'mutable', meaning their values can be changed at any point in time. If you require a mutable
+/// binding, you can use 'let mutable ...' syntax.
 
 module Immutability =
 
@@ -73,6 +79,7 @@ module Immutability =
 
 
 /// Number, Booleans, and Strings
+
 /// As a .NET language, F# supports the same underlying primitive types that exist in .NET
 /// Here is how various numberic types are represented inF#
 
@@ -96,6 +103,7 @@ module IntegersAndNumbers =
 
     /// The next line prints a list that includes tuples, using '%A' for generic printing
     printfn "The table of squares from 0 to 99 is:\n%A" sampleTableOfsquares
+
 
 /// Here's what Boolean values and performing basic conditonal logic looks like:
 
@@ -140,9 +148,11 @@ module StringManipulation =
 
 
  /// Tuples
- /// 'Tuples' are a big deal in F#. They are a grouping of unnamed, but ordered values, that can be treated as values themselves. Think of
- /// them as values which are aggregated from other values. They have many uses, such as conveniently returning multiple values from a
- /// function, or grouping values for some ad-hoc convenience.
+
+ /// 'Tuples' are a big deal in F#. They are a grouping of unnamed, but ordered values, that can be
+ /// treated as values themselves. Think of them as values which are aggregated from other values.
+ /// They have many uses, such as conveniently returning multiple values from a function, or
+ /// grouping values for some ad-hoc convenience.
 
  module Tupes =
 
@@ -163,8 +173,8 @@ module StringManipulation =
 
     printfn "tuple1: %A\ttuple2: %A" tuple1 tuple2
 
-/// As of F# 4.1, you can also create 'struct' tuples. These also interoperate fully with C#7/Visual Basic 15 tuples, which are
-//  also 'struct' tuples:
+/// As of F# 4.1, you can also create 'struct' tuples. These also interoperate fully with C#7/Visual
+/// Basic 15 tuples, which are also 'struct' tuples:
 
     /// Tuples are normally objects, but they caon also be reprsented as structs
     ///
@@ -181,13 +191,19 @@ module StringManipulation =
 
     printfn "Struct Tuple: %A\nReference tuple made from Struct Tuple: %A" sampleStructTuple (sampleStructTuple |> convertFromStructTuple)
 
-    /// Ift's important to note that because struct tuples are value types, they cannot be implicitly converted to reference tuples, or vice
-    /// versa. You must explicitly convert between a reference and struct tuple.
+    /// It's important to note that because struct tuples are value types, they cannot be
+    /// implicitly converted to reference tuples, or vice versa. You must explicitly convert between
+    /// a reference and struct tuple.
+
 
 /// Pipelines and Composition
-/// Pipe operators (|>, <|, ||>, <||, |||>, <|||) and composition operators (>> and <<) are used extensively when
-/// processing data in F#. These operators are functions which allow you to establish "pipelines" of functions in a flexible manner.
-/// The following example walks through how you could take advantage of these operators to build a simple functional pipeline.
+
+/// Pipe operators (|>, <|, ||>, <||, |||>, <|||) and composition operators (>> and <<) are used
+/// extensively when processing data in F#. These operators are functions which allow you to
+/// establish "pipelines" of functions in a flexible manner.
+
+/// The following example walks through how you could take advantage of these operators to build a
+/// simple functional pipeline.
 
 module PipelinesAndComposition =
 
@@ -270,11 +286,13 @@ module PipelinesAndComposition =
 
 
 /// Lists, Arrays, and Sequences
+
 /// Lists, Arrays and Sequences are three primary collections types in the F# core library.
 
-/// 'Lists' are ordered, immutable collections of elements of the same type. They are singly-linked lists, which means
-/// they are meant for enumeration, but a poor choice for random access and concatenation if they're large. This in
-/// contrast to Lists in other popular languages, which typically do not use a singly-linked list to represent Lists.
+/// 'Lists' are ordered, immutable collections of elements of the same type. They are singly-linked
+/// lists, which means they are meant for enumeration, but a poor choice for random access and
+/// concatenation if they're large. This in contrast to Lists in other popular languages, which
+/// typically do not use a singly-linked list to represent Lists.
 
 module Lists =
 
@@ -292,7 +310,7 @@ module Lists =
     ]
 
     /// This is a list of integers from 1 to 1000
-    let numberList = [ 1 .. 1000 ]
+    let numberList1 = [ 1 .. 1000 ]
 
     /// List can also be generated by computations, This a list containing
     /// all the days of the year.
@@ -302,7 +320,8 @@ module Lists =
                 yield System.DateTime(2017, month, day) ]
     
     /// Print the first five elements of 'daysList' using 'List.take'.
-    printfn "The first 5 days of 2017 are: %A"
+    printfn "The first 5 days of 2017 are: %A" (daysList |> List.take 5)
+    
     /// Computations can include conditionals.  This is a list containing the tuples
     /// which are the coordinates of the black square on a chess board.
     let blackSquares =
@@ -311,3 +330,161 @@ module Lists =
                 if (i+j) % 2 = 1 then
                  yield (i,j) ]
     
+
+    /// Lists can be transformed using 'List.map' and other functional programming combinators.
+    /// This definition produces an new list by squaring the numbers in numberList, using pipeline
+    /// operator to pass an agument to List.map
+    let squares =
+        numberList1
+        |> List.map (fun x -> x*x)
+
+    /// There are many other list combinators.  The following computes the sum of the square of the
+    /// numbers divisible by 3.
+    let sumOfSquares =
+        numberList1
+        |> List.filter (fun x -> x % 3 = 0)
+        |> List.sumBy (fun x -> x * x)
+
+    printfn "The sum of the squares of numbers up to 1000 that are divisible by 3 is: %d" sumOfSquares
+
+
+/// Arrays are fixed-size, mutable collections of elements of the same type. They support fast random
+/// access of elements, and are faster than F# lists because they are just contiguous blocks of
+/// memory.
+
+module Arrays =
+
+    /// This is The empty array.  Note that the suntax is similar to that of Lists, but uses '[| ... |]'.
+    let array1 = [| |]
+
+    /// Arrays are specified using the same range of constructs as lists.
+    let array2 = [| "hello"; "world"; "and"; "hello"; "world"; "again" |]
+
+    /// This is an array of numbers from 1 to 1000.
+    let array3 = [| 1 .. 1000 |]
+
+    /// This is an array containing only the worlds "hello" and "world".
+    let array4 =
+        [| for word in array2 do
+                if word.Contains("l") then
+                    yield word |]
+    
+    /// This is an array initialized by index and containing the even numbers from 0 to 2000
+    let evenNumbers = Array.init 1001 (fun n -> n * 2)
+
+    /// Sub-arrays are extracted using slicing notation
+    let evenNumbersSlice = evenNumbers.[0..500]
+
+    /// You can loop over arrays and lists using 'for' loops.
+    for word in array4 do
+        printf "word: %s" word
+    
+    /// You can modify the contents of an array element by using the left arrow assignment operator.
+    array2.[1] <- "WORLD!"
+    
+    /// You can transform arrays using 'Array.map' and other functional programming operations.
+    /// The following calculates the sum of the lengths of the words that star with 'h'
+    let sumOfLengthsOfWords =
+        array2
+        |> Array.filter (fun x -> x.StartsWith "h")
+        |> Array.sumBy (fun x -> x.Length)
+    
+    printfn "The sum of the lengs of the words in Array2 that begin with 'h': %d" sumOfLengthsOfWords
+
+
+/// Sequences are a logical series of elements, all of the same type. These are a more general
+/// type than Lists and Arrays, capable of being your "view" into any logical series of elements.
+/// They also stand out because they can be *lazy*, which means that elements can be computed only
+/// when they are needed.
+
+module Sequences =
+
+    /// This is the empty sequence.
+    let seq1 = Seq.empty
+
+    /// This is a sequence of values
+    let seq2 = seq { yield "hello"; yield "world"; yield "and"; yield "hello"; yield "again" }
+
+    /// This is an on-demand sequence from 1 to 1000.
+    let numberSeq = seq { 1 .. 1000 }
+
+    /// This is a sequence producning the words "hello" and "world"
+    let seq3 =
+        seq { for word in seq2 do
+                if word.Contains("l") then
+                    yield word }
+    
+    /// This sequence producing the even numbers up to 2000.
+    let evenNumbers = Seq.init 1001 (fun n -> n * 2)
+
+    let rnd = System.Random()
+
+    /// This is an infinite sequence which is a random walk.
+    /// This example uses yield! to return each element of a subsequence.
+    let rec randomWalk x =
+        seq { yield x
+              yield! randomWalk (x + rnd.NextDouble() - 0.5) }
+    
+    /// This example shows the first 100 elements of random walk
+    let first100ValuesOfRandomWalk =
+        randomWalk 5.0
+        |> Seq.truncate 100
+        |> Seq.toList
+
+    printfn "First 100 elements of a random walk: %A" first100ValuesOfRandomWalk
+
+
+ /// Recursive Functions
+
+ /// Processing collections or sequences of elements is typically done with recursion in F#. Although
+ /// F# has support for loops and imperative programming, recursion is preferred because it is easier
+ /// to guarantee correctness.
+
+ module RecursiveFunctions =
+
+    /// This example shows a recursive function that computes the facotial of an
+    /// integer.  It uses 'let rec' to define a recursive function.
+    let rec factorial n =
+        if n = 0 then 1 else n * factorial (n-1)
+    
+    printfn "Factorial of 6 is: %d" (factorial 6)
+
+    /// Computes the greatest common factor of two integers.
+    ///
+    /// Since all of the recursive calls are tail calls,
+    /// the compiler will turn the function into a loop,
+    /// which improves performance and reduces memory consumption.
+    let rec greatesCommonFactor a b =
+        if a = b then b
+        elif a < b then greatesCommonFactor a (b - a)
+        else greatesCommonFactor (a - b) b
+    
+    printfn "The Greatest Common Factor of 300 and 620 is %d" (greatesCommonFactor 300 630)
+
+    /// This example computes the sum of a list of integers using recursion
+    let rec sumList xs =
+        match xs with
+        | []    -> 0
+        | y::ys -> y + sumList ys
+    
+    let oneThroughTen = [ 1; 2; 3; 4; 5; 6; 7; 8; 9; 10 ]
+
+    printfn "The sum 1-10 is %d" (sumList oneThroughTen)
+
+    /// This makes 'sumList' tail recursive, using a helper functio with a result accumulator.
+    let rec sumListTailRecHelper accumulator xs =
+        match xs with
+        | []    -> accumulator
+        | y::ys -> sumListTailRecHelper (accumulator+y) ys
+    
+    /// This invokes the tail recursive helper function, providing '0' as a seed accumulator.
+    /// An approach like this is common in F#.
+    let sumListTailRecursive xs = sumListTailRecHelper 0 xs
+
+    printfn "The sum 1-10 is %d" (sumListTailRecursive oneThroughTen)
+
+/// F# also has full support for Tail Call Optimization, which is a way to optimize recursive calls
+/// so that they are just as fast as a loop construct.
+
+
+/// Record and Discrimated Union Types
