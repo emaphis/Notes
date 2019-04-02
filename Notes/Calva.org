@@ -1,0 +1,103 @@
+* calva - usage info
+
+** Running tests through the REPL connection, and mark them in the Problems tab 
+Default keybinding  Action
+ctrl+alt+v t        Run namespace tests
+ctrl+alt+v shift+t  Run all tests
+ctrl+alt+v ctrl+t   Rerun previously failing tests
+Marks test failures using the Problem tab
+User setting for running namespace tests on save (defaults to on)
+Caveat: Right now the tests are reported only when all are run, making it painful to run all tests in
+ larger projects. I'll fix it. Promise!
+
+** Code evaluation 
+Default keybinding  Action
+ctrl+alt+v e        Evaluate code at cursor and show the results as annotation in the editor 
+ctrl+escape         Dismiss the display of results by pressing.
+ctrl+alt+v r        Evaluate code and replace it in the editor, inline
+ctrl+alt+v p        Pretty printing evaluation resuls
+ctrl+alt+v spc      Evaluate current top level form (based on where the cursor is) and show results inline
+ctrl+alt+v alt+spc  Send the current top level form to the REPL terminal
+Error information when evaluation fails (at least a hint)
+Support for cljc files and you can choose if they should be evaluated by the clj or the cljc repl session.
+Enables clj repl for all files/editors. You now can evaluate those clojure code snippets in Markdown files.
+The evaluation commands will auto-”detect” vectors and maps as well as list.
+User setting to evaluate namespace on save/open file (defaults to on)
+
+** Integrated REPLs using the Terminal tab
+Default keybinding  Action 
+ctrl+alt+v n        Switch to current namespace in the terminal REPL
+ctrl+alt+v alt+n    Load current namespace in the terminal REPL
+ctrl+alt+v alt+e    Evaluate code from the editor to the terminal REPL
+
+When editing cljc files, easily choose if repl commands should go to the clj or cljs repl by clicking
+ the cljc/clj[s] indicator in the status bar.
+
+ctrl+alt+v s        Selection of current form. Auto-detected the same way as for evaluation. 
+                    Will select the form preceding or following the cursor first, otherwise the
+                    form the cursor is inside. (Only when the cursor is directly adjacent to any bracket so far.)
+
+
+* Paredit - Commands
+    Note: You can choose to disable all default key bindings by configuring calva.paredit.defaultKeyMap to none.
+ (Then you probably also want to register your own shortcuts for the commands you often use.)
+
+** Navigation
+Default keybinding  Action
+ctrl+right          Forward Sexp
+ctrl+left           Backward Sexp
+ctrl+down           Forward Down Sexp
+ctrl+up             Backward Up Sexp
+ctrl+alt+right      Close List
+
+** Selecting
+Default keybinding  Action
+ctrl+w              Expand Selection
+ctrl+shift+w        Shrink Selection
+ctrl+alt+w space    Select Current Top Level Form
+
+** Editing
+Default keybinding  Action
+ctrl+alt+.          Slurp Forward
+ctrl+alt+<          Slurp Backward
+ctrl+alt+,          Barf Forward
+ctrl+alt+>          Barf Backward
+ctrl+alt+s          Splice
+ctrl+alt+shift+s    Split Sexp
+ctrl+delete         Kill Sexp Forward
+ctrl+shift+backspace (on Mac)   Kill Sexp Forward
+ctrl+backspace      Kill Sexp Backward
+ctrl+alt+down       Splice & Kill Forward
+ctrl+alt+up         Splice & Kill Backward
+ctrl+alt+(          Wrap Around ()
+ctrl+alt+[          Wrap Around []
+ctrl+alt+{          Wrap Around {}
+ctrl+alt+i          Indent
+backspace           Delete Backward, unless it will unbalance a form
+delete              Delete Forward, unless it will unbalance a form
+shift+backspace (on Mac)    Delete Forward, unless it will unbalance a form
+ctrl+alt+backspace  Force Delete Backward
+ctrl+alt+delete     Force Delete Forward
+alt+shift+backspace (on Mac)    Force Delete Forward
+---                 Transpose
+NB: Strict mode is enabled by default. The backspace and delete keys won't let you remove parentheses
+ or brackets so they become unbalanced. To force a delete anyway, use the supplied commands for that.
+  Strict mode can be switched off by by configuring calva.paredit.defaultKeyMap to original instead of strict.
+(Actuallym currently strict mode is not enabled by default. There are some issues with it that needs to
+ be ironed out first. But please help with testing by enabling it.)
+
+** Copying/Yanking
+Default keybinding   Action
+ctrl+alt+c ctrl+rgt  Copy Forward Sexp
+ctrl+alt+c ctrl+lft  Copy Backward Sexp
+ctrl+alt+c ctrl+dwn  Copy Forward Down Sexp
+ctrl+alt+c ctrl+up   Copy Backward Up Sexp
+ctrl+alt+c ctrl+alt+rgt  Copy Close List
+
+** Cutting
+Default keybinding   Action
+ctrl+alt+x ctrl+rgt  Cut Forward Sexp
+ctrl+alt+x ctrl+lft  Cut Backward Sexp
+ctrl+alt+x ctrl+dwn  Cut Forward Down Sexp
+ctrl+alt+x ctrl+up   Cut Backward Up Sexp
+ctrl+alt+x ctrl+alt+rgt  Cut Close List

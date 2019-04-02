@@ -1,5 +1,4 @@
 
-
 * Project layout.
 
 lein new app my-stuff
@@ -19,7 +18,7 @@ lein new app my-stuff
 ./test/my_stuff
 ./test/my_stuff/core_test.clj
 
-- note on name space 
+- note on name space
 Note that we use my-stuff.core instead of just my-stuff since
  single-segment namespaces are discouraged in Clojure.
  Also note that namespaces with dashes in the name will have
@@ -56,7 +55,7 @@ https://github.com/deanwampler/property-based-testing
 
 ** Running tests using lein or at repl.
 $ lein test
-lein test my-stuff.core-test 
+lein test my-stuff.core-test
 
 => (run-tests)
 => (run-tests & namespaces)
@@ -79,7 +78,6 @@ https://github.com/Unrepl
 
 
 * The language
-
 ** Simple
 
 Code that checks to see whether as string is blank.
@@ -107,3 +105,89 @@ Same code in Clojure
 #+END_SRC
 Lol!
 
+** (read-line)
+user=> (read-line)
+line to be read      ;Type text into console
+"line to be read"
+
+; (flush) is needed for displaying the prompt. Print stays in a buffer otherwise.
+user=> (do (print "What's your name? ") (flush) (read-line))
+What's your name? Clojure
+"Clojure"
+
+(println "Enter something> ")
+(def x (read-line))
+(println (str "You typed \"" x "\""))
+
+** clojure-repl
+** (require )
+;; Require clojure.java.io and call its file function:
+user=> (require '(clojure.java.io))
+user=> (clojure.java.io/file "filename")
+#<File filename>
+-
+;; alias clojure.java.io as io
+user=> (require '[clojure.java.io :as io])
+nil
+
+user=> (io/file "Filename")
+#<File Filename>
+
+;; alias clojure.java.io as io using prefixes
+user=> (require '(clojure.java [io :as io2]))
+nil
+
+user=> (io2/file "Filename")
+#<File Filename>
+
+** (ns)
+(ns foo.bar
+  (:refer-clojure :exclude [ancestors printf])
+  (:require (clojure.contrib sql combinatorics))
+  (:use (my.lib this that))
+  (:import (java.util Date Timer Random)
+           (java.sql Connection Statement)))
+** Java interface
+*** gen-class
+https://kotka.de/blog/2010/02/gen-class_how_it_works_and_how_to_use_it.html
+
+* HTDP header
+#+BEGIN_SRC clojure
+  ;; header of  HTDP
+  (ns speck.testing
+     (:require [clojure.test :refer :all]
+               [clojure.spec.alpha :as s]
+	       [clojure.spec.gen.alpha :as gen]
+	       [clojure.spec.test.alpha :as stest]
+	       [clojure.repl :as r]
+	       [htdp.util :refer :all]
+	       [clojure.string :as str]))
+#+END_SRC
+
+#+BEGIN_SRC clojure
+  ;; header of  HTDP
+  (ns living.whatever
+     (:require [clojure.test :refer :all]
+               [clojure.spec.alpha :as s]
+	       [clojure.spec.gen.alpha :as gen]
+	       [clojure.spec.test.alpha :as stest]
+	       [clojure.repl :as r]
+	       [clojure.string :as str]))
+#+END_SRC
+* repl
+** rebel-readline
+- Add [com.bhauman/rebel-readline "0.1.4"] to the dependencies in your project.clj
+  lein trampoline run -m rebel-readline.main
+{
+ ...
+ :aliases {"rebl" ["trampoline" "run" "-m" "rebel-readline.main"]}
+}
+Alternatively, you can do this globally in $HOME/.lein/profiles.clj:
+{
+ ...
+ :user {:aliases {"rebl" ["trampoline" "run" "-m" "rebel-readline.main"]}}
+}
+Now you can start a rebel-readline REPL with lein rebl.
+
+- clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0.1.4\"}}}" -m rebel-readline.main
+- 
