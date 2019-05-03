@@ -60,7 +60,12 @@ lein test my-stuff.core-test
 => (run-tests)
 => (run-tests & namespaces)
 
-
+** Midje
+[midje/midje "1.9.8"]
+[midje "1.9.1"]
+:plugins [[lein-midje "3.2.1"]
+Use EMidje mode for emacs.
+https://github.com/nubank/matcher-combinators
 * REPL
 
 ** .profile
