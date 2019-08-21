@@ -39,15 +39,26 @@ user=> (def response (http/get "http://leiningen.org"))
 user=> (keys response)
 (:status :headers :body :request-time :trace-redirects :orig-content-encoding)
 
+** running
+
 $ lein run
 Hello, World!
 
-Also see here:
-https://8thlight.com/blog/colin-jones/2010/12/05/clojure-libs-and-namespaces-require-use-import-and-ns.html
+To run programs without lein in memory
+$ lein trampoline run -m my-stuff.server 5000
 
+** running tests
+
+$ lein test
+
+$ lein test my-stuff.core-test
+
+* name spaces
+see:
+https://8thlight.com/blog/colin-jones/2010/12/05/clojure-libs-and-namespaces-require-use-import-and-ns.html
+https://stuartsierra.com/2016/clojure-how-to-ns.html
 
 * Testing
-
 ** property based
 https://8thlight.com/blog/guest/2015/05/06/reid-draper-guest-blog.html
 https://github.com/clojure/test.check/blob/master/doc/intro.md
@@ -67,7 +78,7 @@ lein test my-stuff.core-test
 Use EMidje mode for emacs.
 https://github.com/nubank/matcher-combinators
 * REPL
-
+Guide : https://lambdaisland.com/guides/clojure-repls
 ** .profile
 
 https://github.com/gfredericks/dotfiles/blob/master/base/.lein/profiles.clj.symlink
@@ -80,7 +91,6 @@ Advanced repl
 https://github.com/Unrepl
 
 ** Use:
-
 
 * The language
 ** Simple
