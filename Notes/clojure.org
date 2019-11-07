@@ -156,6 +156,7 @@ user=> (io2/file "Filename")
 #<File Filename>
 
 ** (ns)
+- example
 (ns foo.bar
   (:refer-clojure :exclude [ancestors printf])
   (:require (clojure.contrib sql combinatorics))
@@ -205,4 +206,12 @@ Alternatively, you can do this globally in $HOME/.lein/profiles.clj:
 Now you can start a rebel-readline REPL with lein rebl.
 
 - clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0.1.4\"}}}" -m rebel-readline.main
-- 
+  - 
+* Clojurescript
+- workshop <https://github.com/ClojureTO/JS-Workshop> 
+- Add library dependency to your project
+[cider/piggieback "0.4.1"]
+[org.clojure/clojure "1.9.0"]
+
+:repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
+to project.clj

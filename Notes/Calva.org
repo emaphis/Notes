@@ -1,42 +1,66 @@
-* calva - usage info
+Calva - A Clojure environment for Visual Studio Code
+
+* Calva - usage info
+
+** Top ten commands
+efault keybinding          Action
+ctrl+w                     Grow/expand selection
+alt+ctrl+c enter           Load current file
+alt+ctrl+c e               Evaluate current form
+alt+ctrl+c space           Evaluate current top-level form
+escape                     Dismiss the display of results
+alt+ctrl+c ctrl+alt+e      evaluate the current form in the REPL window.
+alt+ctrl+c ctrl+alt+space  to evaluate the current top-level form in this window
+alt+ctrl+c ctrl+alt+n      Load current namespace in the REPL window
+ctrl+alt+c p               Toggle pretty printing of results on and off
+
+** Connecting to a projects
+Default keybinding     Action
+ctrl+alt+c ctrl+alt+j  Start a Project REPL and Connect (aka Jack-In)
+ctrl+alt+c ctrl+alt+c  Connect to a Running REPL Server in the Project
+ctrl+alt+c alt+c       Connect to a Running REPL Server, not in Project
+calva.disconnect	   Disconnect from the REPL Server
+
+** REPL Commands
+Default keybinding     Action
+alt+up/down            Navigate history
+alt+enter              Submit current line
+ctrl+d                 Interrupt a running evaluated
+ctrl+l                 Clear the REPL
 
 ** Running tests through the REPL connection, and mark them in the Problems tab 
 Default keybinding  Action
-ctrl+alt+v t        Run namespace tests
-ctrl+alt+v shift+t  Run all tests
-ctrl+alt+v ctrl+t   Rerun previously failing tests
+ctrl+alt+c t        Run namespace tests
+ctrl+alt+c shift+t  Run all tests
+ctrl+alt+c ctrl+t   Rerun previously failing tests
 Marks test failures using the Problem tab
 User setting for running namespace tests on save (defaults to on)
 Caveat: Right now the tests are reported only when all are run, making it painful to run all tests in
- larger projects. I'll fix it. Promise!
+ larger projects. 
 
 ** Code evaluation 
 Default keybinding  Action
-ctrl+alt+v e        Evaluate code at cursor and show the results as annotation in the editor 
-ctrl+escape         Dismiss the display of results by pressing.
-ctrl+alt+v r        Evaluate code and replace it in the editor, inline
-ctrl+alt+v p        Pretty printing evaluation resuls
-ctrl+alt+v spc      Evaluate current top level form (based on where the cursor is) and show results inline
-ctrl+alt+v alt+spc  Send the current top level form to the REPL terminal
-Error information when evaluation fails (at least a hint)
-Support for cljc files and you can choose if they should be evaluated by the clj or the cljc repl session.
-Enables clj repl for all files/editors. You now can evaluate those clojure code snippets in Markdown files.
-The evaluation commands will auto-”detect” vectors and maps as well as list.
-User setting to evaluate namespace on save/open file (defaults to on)
+ctrl-alt-c enter    Loading Current File and Dependencies
+ctrl+alt+c e        Evaluate code at cursor and show the results as annotation in the editor 
+escape              Dismiss the display of results by pressing.a
+ctrl+alt+c c        Evaluate code and add as comment
+ctrl+alt+c r        Evaluate code and replace it in the editor, inline
+ctrl+alt+c ctrl+c   Copy last evaluation results
+ctrl+alt+c p        Pretty printing evaluation resuls
+ctrl+alt+c spc      Evaluate current top level form (based on where the cursor is) and show results inline
 
 ** Integrated REPLs using the Terminal tab
-Default keybinding  Action 
-ctrl+alt+v n        Switch to current namespace in the terminal REPL
-ctrl+alt+v alt+n    Load current namespace in the terminal REPL
-ctrl+alt+v alt+e    Evaluate code from the editor to the terminal REPL
+Default keybinding     Action 
+ctrl+alt+c alt+spc     Send the current top level form to the REPL terminal
+ctrl+alt+c ctrl+alt+n  Load current namespace in the REPL window
+ctrl+alt+c ctrl+alt+v  Evaluate current editor form in the REPL window
+ctrl+alt+c ctrl+space  Evaluate current editor top level form in the REPL window
 
-When editing cljc files, easily choose if repl commands should go to the clj or cljs repl by clicking
- the cljc/clj[s] indicator in the status bar.
+ctrl+alt+c n        Switch to current namespace in the terminal REPL
+ctrl+alt+c alt+n    Load current namespace in the terminal REPL
+ctrl+alt+c alt+e    Evaluate code from the editor to the terminal REPL
 
-ctrl+alt+v s        Selection of current form. Auto-detected the same way as for evaluation. 
-                    Will select the form preceding or following the cursor first, otherwise the
-                    form the cursor is inside. (Only when the cursor is directly adjacent to any bracket so far.)
-
+ctrl+alt+c s        Selection of current form.
 
 * Paredit - Commands
     Note: You can choose to disable all default key bindings by configuring calva.paredit.defaultKeyMap to none.
