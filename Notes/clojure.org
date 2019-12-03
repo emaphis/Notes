@@ -27,7 +27,7 @@ Note that we use my-stuff.core instead of just my-stuff since
 
 - Update project.clj
 #+BEGIN_SRC clojure
-:dependencies [[org.clojure/clojure "1.8.0"]
+:dependencies [[org.clojure/clojure "1.10.1"]
                  [clj-http "2.0.0"]]
 
 #+END_SRC
@@ -57,6 +57,27 @@ $ lein test my-stuff.core-test
 see:
 https://8thlight.com/blog/colin-jones/2010/12/05/clojure-libs-and-namespaces-require-use-import-and-ns.html
 https://stuartsierra.com/2016/clojure-how-to-ns.html
+- load a namespace
+(require ​'clojure.data​)
+
+(ns blottsbooks.core)
+
+src/blottsbooks/core.clj
+
+(ns blottsbooks.core
+  (:require blottsbooks.pricing
+            [blottsbooks.pricing :as pricing])
+  (:gen-class))
+
+(require '[blottsbooks.pricing :as pricing])
+(require '[blottsbooks.pricing :refer [discount-price]])
+(require '[clojure.core :refer :all])
+ (require :reload '[blottsbooks.pricing :as pricing]) ;; reload
+
+(println "Current ns: " *ns*)
+(ns-map (find-ns 'user))
+(ns-unmap ​'blottsbooks.pricing​ ​'discount-price​)
+(defonce some-value (function-with-side-effects))
 
 * Testing
 ** property based
@@ -206,7 +227,7 @@ Alternatively, you can do this globally in $HOME/.lein/profiles.clj:
 Now you can start a rebel-readline REPL with lein rebl.
 
 - clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0.1.4\"}}}" -m rebel-readline.main
-  - 
+- 
 * Clojurescript
 - workshop <https://github.com/ClojureTO/JS-Workshop> 
 - Add library dependency to your project

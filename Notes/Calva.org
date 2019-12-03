@@ -6,7 +6,7 @@ Calva - A Clojure environment for Visual Studio Code
 efault keybinding          Action
 ctrl+w                     Grow/expand selection
 alt+ctrl+c enter           Load current file
-alt+ctrl+c e               Evaluate current form
+alt+ctrl+c v               Evaluate current form
 alt+ctrl+c space           Evaluate current top-level form
 escape                     Dismiss the display of results
 alt+ctrl+c ctrl+alt+e      evaluate the current form in the REPL window.
