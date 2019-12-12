@@ -155,6 +155,10 @@ What's your name? Clojure
 (def x (read-line))
 (println (str "You typed \"" x "\""))
 
+** read/write a file
+ (spit "./src/myapp/outtest.txt"  "Out test text")
+ (slurp "./src/myapp/outtest.txt")
+
 ** clojure-repl
 ** (require )
 ;; Require clojure.java.io and call its file function:
