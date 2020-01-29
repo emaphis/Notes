@@ -1,4 +1,5 @@
-
+* doc source - clojure.repl/*
+(require '[clojure.repl :refer :all])
 * Project layout.
 
 lein new app my-stuff
@@ -112,6 +113,9 @@ Advanced repl
 https://github.com/Unrepl
 
 ** Use:
+** Rebel readline
+
+lein trampoline run -m rebel-readline.main
 
 * The language
 ** Simple
@@ -180,6 +184,8 @@ nil
 user=> (io2/file "Filename")
 #<File Filename>
 
+(require '[clojure.repl :refer :all])
+
 ** (ns)
 - example
 (ns foo.bar
@@ -240,3 +246,6 @@ Now you can start a rebel-readline REPL with lein rebl.
 
 :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]}
 to project.clj
+* Clojure style database
+https://github.com/tonsky/datascript
+https://github.com/replikativ/datahike
