@@ -2,6 +2,8 @@
 
 <https://wiki.openjdk.java.net/display/loom/Main>
 
+<http://cr.openjdk.java.net/~rpressler/loom/Loom-Proposal.HTML>
+
 ## Loom examples
 
 <https://github.com/forax/loom-fiber>
