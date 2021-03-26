@@ -1,4 +1,4 @@
-Table of Contents for PDF file
+Table of Contents for HTDP PDF file
 
 * Table of Contents .....................................   4
 
