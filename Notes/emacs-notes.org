@@ -8,6 +8,14 @@ https://zzamboni.org/post/my-emacs-configuration-with-commentary/
 https://github.com/NicolasPetton/zerodark-theme
 https://github.com/NicolasPetton/stream
 
+
+*Cannot open doc string file "DOC"
+"c:/Apps/emacs-27.2/etc/"
+
+Move the DOC file 
+from:  C:\Apps\emacs-27.2\share\emacs\27.2\etc
+to: C:\Apps\emacs-27.2\etc
+
 * key bindings
 ** Rectangular
 ** Projectile
