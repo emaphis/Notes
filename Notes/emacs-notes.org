@@ -4,6 +4,9 @@ https://github.com/domtronn/emacs
 icon fonts
 https://zzamboni.org/post/my-emacs-configuration-with-commentary/
 
+* Blogs or whatever
+https://irreal.org/
+
 * Other
 https://github.com/NicolasPetton/zerodark-theme
 https://github.com/NicolasPetton/stream
